@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            - "file:///C:/Users/pravin/Downloads/cards_config"
+            - "classpath:/config"
+
+
+#        repos:
+#          accounts-service:
+#            pattern: "accounts"
+#            type: native
+#            search-locations: "classpath:/config"
+#          cards-service:
+#            pattern: "cards"
+#            type: native
+#            search-locations: "file:///C://Users//pravin//Downloads//cards_config"
+
+
+server:
+  port: 8071
+

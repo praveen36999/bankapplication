@@ -1,5 +1,6 @@
 com\microservice\accounts\audit\AuditAwareImpl.class
 com\microservice\accounts\repository\CustomerRepository.class
+com\microservice\accounts\dto\AccountsContactInfoDto.class
 com\microservice\accounts\mapper\AccountsMapper.class
 com\microservice\accounts\exception\CustomerAlreadyExistsException.class
 com\microservice\accounts\controller\AccountsController.class

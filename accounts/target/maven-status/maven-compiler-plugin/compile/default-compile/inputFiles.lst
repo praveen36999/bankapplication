@@ -2,6 +2,7 @@ C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservic
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\audit\AuditAwareImpl.java
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\constants\AccountsConstants.java
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\controller\AccountsController.java
+C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\dto\AccountsContactInfoDto.java
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\dto\AccountsDto.java
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\dto\CustomerDto.java
 C:\Users\pravin\Downloads\bankapplication\accounts\src\main\java\com\microservice\accounts\dto\ErrorResponseDto.java

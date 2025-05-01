@@ -2,6 +2,7 @@ C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\l
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\constants\LoansConstants.java
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\controller\LoansController.java
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\dto\ErrorResponseDto.java
+C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\dto\LoansContactInfoDto.java
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\dto\LoansDto.java
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\dto\ResponseDto.java
 C:\Users\pravin\Downloads\bankapplication\loans\src\main\java\com\microservice\loans\entity\BaseEntity.java
