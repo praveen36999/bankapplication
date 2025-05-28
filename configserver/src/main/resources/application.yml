@@ -15,7 +15,7 @@ spring:
           clone-on-start: true
           force-pull: true
           username: praveen36999
-          password: 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
+          password: ${GITHUB_TOKEN}
   rabbitmq:
     host: "localhost"
     port: 5672
