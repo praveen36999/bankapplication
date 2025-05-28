@@ -1,0 +1,180 @@
+services:
+
+  accountsdb:
+    image: "postgres"
+    container_name: "accountsdb"
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_DB: accountsdb
+    extends:
+      file: common-default.yml
+      service: microservice-db-config
+
+  cardsdb:
+    image: "postgres"
+    container_name: "cardsdb"
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: cardsdb
+    extends:
+      file: common-default.yml
+      service: microservice-db-config
+
+  loansdb:
+    image: "postgres"
+    container_name: "loansdb"
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_DB: loansdb
+    extends:
+      file: common-default.yml
+      service: microservice-db-config
+
+  rabbit:
+    image: rabbitmq:4-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-default.yml
+      service: network-deploy-service
+
+  configserver:
+    image: "praveen36999/configserver:s6"
+    container_name: "configserver_microservice"
+    ports:
+      - "8071:8071"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    extends:
+      file: common-default.yml
+      service: microservice-base-config
+
+  eurekaserver:
+    image: "praveen36999/eurekaserver:s6"
+    container_name: "eurekaserver_microservice"
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+    extends:
+      file: common-default.yml
+      service: microservice-configserver-config
+
+  accounts:
+    image: "praveen36999/accounts:s6"
+    container_name: "accounts_microservice"
+    ports:
+      - "8080:8080"
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      accountsdb:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://accountsdb:5432/accountsdb
+    extends:
+      file: common-default.yml
+      service: microservice-eurekaserver-config
+
+  loans:
+    image: "praveen36999/loans:s6"
+    container_name: "loans_microservice"
+    ports:
+      - "8090:8090"
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      loansdb:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://loansdb:5432/loansdb
+    extends:
+      file: common-default.yml
+      service: microservice-eurekaserver-config
+
+  cards:
+    image: "praveen36999/cards:s6"
+    container_name: "cards_microservice"
+    ports:
+      - "8082:8082"
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      cardsdb:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cardsdb:5432/cardsdb
+    extends:
+      file: common-default.yml
+      service: microservice-eurekaserver-config
+
+  gatewayserver:
+    image: "praveen36999/gatewayserver:s6"
+    container_name: "gatewayserver_microservice"
+    ports:
+      - "8072:8072"
+    depends_on:
+      accounts:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+      environment:
+        SPRING_APPLICATION_NAME: "gatewayserver"
+    extends:
+      file: common-default.yml
+      service: microservice-eurekaserver-config
+
+
+networks:
+  bank-network:
+    driver: bridge

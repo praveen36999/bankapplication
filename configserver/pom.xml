@@ -11,6 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>configserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>configserver</name>
 	<description>Config Server for microservices</description>
 	<url/>
@@ -41,6 +42,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-config-monitor</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
 		</dependency>
 
@@ -67,6 +72,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>praveen36999/${project.artifactId}:s6</name>
+					</image>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
